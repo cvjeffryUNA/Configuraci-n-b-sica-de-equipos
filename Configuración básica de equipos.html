@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semana 7</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-red: #cc1d25;
+            --primary-red-light: #e63946;
+            --primary-red-dark: #a01315;
+            --blue-dark: #0c305a;
+            --blue-darker: #0c2444;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --bg-light: #f7fafc;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(204, 29, 37, 0.1);
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            color: var(--primary-red);
+            font-size: 1.2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-red);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--primary-red-dark) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.5s forwards;
+        }
+
+        .hero-content .subtitle {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.7s forwards;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: var(--primary-red);
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.9s forwards;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        /* Section Separator */
+        .section-separator {
+            height: 100px;
+            background: linear-gradient(to bottom, var(--primary-red-dark), white);
+        }
+
+        /* Main Content Section */
+        .main-section {
+            padding: 6rem 0;
+            background: white;
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary-red);
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--primary-red);
+            border-radius: 2px;
+        }
+
+        /* Search and Filters */
+        .controls-section {
+            background: var(--bg-light);
+            padding: 3rem 0;
+            margin-bottom: 4rem;
+        }
+
+        .search-container {
+            margin-bottom: 2rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1.2rem;
+            border: 2px solid transparent;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            background: white;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-red);
+            box-shadow: 0 5px 30px rgba(204, 29, 37, 0.2);
+        }
+
+        .filters {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: white;
+            color: var(--text-dark);
+            border: 2px solid var(--bg-light);
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary-red);
+            color: white;
+            border-color: var(--primary-red);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(204, 29, 37, 0.3);
+        }
+
+        /* Glossary Grid */
+        .glossary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-red), var(--primary-red-light));
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(204, 29, 37, 0.15);
+            border-color: var(--primary-red);
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-red), var(--primary-red-light));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--primary-red);
+            margin-bottom: 1rem;
+        }
+
+        .card-description {
+            color: var(--text-light);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .card-category {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--bg-light);
+            color: var(--text-light);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 3% auto;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 85vh;
+            overflow: hidden;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary-red), var(--primary-red-light));
+            color: white;
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .close-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .modal-body {
+            padding: 2rem;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .modal-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: var(--bg-light);
+            border-radius: 15px;
+        }
+
+        .modal-section h3 {
+            color: var(--primary-red);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .modal-section p {
+            color: var(--text-dark);
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        .simulation-container {
+            background: white;
+            border: 2px solid var(--bg-light);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .simulation-btn {
+            background: linear-gradient(135deg, var(--blue-dark), var(--blue-darker));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .simulation-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(12, 48, 90, 0.3);
+        }
+
+        .simulation-display {
+            background: #1a1a1a;
+            color: #00ff00;
+            border-radius: 10px;
+            padding: 1.5rem;
+            min-height: 120px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--text-dark);
+            color: white;
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .footer-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary-red-light);
+        }
+
+        .footer-title {
+            font-size: 1rem;
+            color: var(--text-light);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .glossary-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .modal-content {
+                margin: 10% auto;
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">
+                    <i class="fas fa-network-wired"></i>
+                    <span>Glosario de Redes</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#glosario">Glosario</a></li>
+                    <li><a href="#acerca"></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero">
+        <div class="hero-content">
+            <h1>Configuración básica de equipos</h1>
+            <p class="subtitle">Universidad Nacional</p>
+            <a href="#glosario" class="cta-button">Explorar Términos</a>
+        </div>
+    </section>
+
+    <!-- Section Separator -->
+    <div class="section-separator"></div>
+
+    <!-- Main Content -->
+    <section id="glosario" class="main-section">
+        <div class="container">
+            <h2 class="section-title fade-in">TÉRMINOS DE REDES</h2>
+            
+            <!-- Controls -->
+            <div class="controls-section fade-in">
+                <div class="container">
+                    <div class="search-container">
+                        <input type="text" class="search-input" placeholder="🔍 Buscar términos de redes..." id="searchInput">
+                    </div>
+                    <div class="filters">
+                        <button class="filter-btn active" data-category="all">Todos</button>
+                        <button class="filter-btn" data-category="hardware">Hardware</button>
+                        <button class="filter-btn" data-category="protocolo">Protocolos</button>
+                        <button class="filter-btn" data-category="servicio">Servicios</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Glossary Grid -->
+            <div class="glossary-grid fade-in" id="glossaryGrid">
+                <!-- Las tarjetas se generarán dinámicamente -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-name">Ing. Jeffry Carballo Vargas, Mag.</div>
+                <div class="footer-title">UNA</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle"></h2>
+                <button class="close-btn" id="closeBtn">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Contenido del modal se genera dinámicamente -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const glossaryData = [
+            {
+                term: "Router (Enrutador)",
+                category: "hardware",
+                definition: "Dispositivo de red que conecta múltiples redes y determina la mejor ruta para enviar paquetes de datos entre ellas.",
+                realExample: "Como la salida principal de un condominio: si quieres ir a otro barrio, primero pasas por ahí. El router es esa salida que conecta tu casa (red local) con el mundo exterior (Internet).",
+                packetTracerExample: "En Packet Tracer, se configura con comandos como 'ip route 0.0.0.0 0.0.0.0 [gateway]' para establecer rutas.",
+                simulation: "router",
+                icon: "fas fa-route"
+            },
+            {
+                term: "Switch (Conmutador)",
+                category: "hardware", 
+                definition: "Dispositivo que conecta múltiples dispositivos en una red local y reenvía datos basándose en direcciones MAC.",
+                realExample: "Como un tablero de conexiones telefónicas antiguo: cuando alguien llama, la operadora conecta directamente al destinatario. El switch hace lo mismo con los datos entre computadoras.",
+                packetTracerExample: "Se configura con VLANs usando comandos como 'vlan 10' y 'switchport access vlan 10'.",
+                simulation: "switch",
+                icon: "fas fa-project-diagram"
+            },
+            {
+                term: "Servidor (Server)",
+                category: "hardware",
+                definition: "Computadora o programa que proporciona servicios, recursos o datos a otros dispositivos llamados clientes.",
+                realExample: "Como un mesero en un restaurante: tú pides (cliente) y él te trae lo que necesitas (servicio). El servidor web te 'sirve' las páginas web que solicitas.",
+                packetTracerExample: "Se configura un servidor HTTP/HTTPS en Packet Tracer para simular servicios web.",
+                simulation: "server",
+                icon: "fas fa-server"
+            },
+            {
+                term: "PC (Computadora Cliente)",
+                category: "hardware",
+                definition: "Dispositivo final que solicita servicios o recursos de otros dispositivos en la red, como servidores.",
+                realExample: "Como tú en un restaurante: eres el cliente que pide comida al mesero. Tu computadora 'pide' información a los servidores de Internet.",
+                packetTracerExample: "Se configura con IP estática o DHCP usando la interfaz gráfica de Packet Tracer.",
+                simulation: "pc",
+                icon: "fas fa-desktop"
+            },
+            {
+                term: "Dirección IP (Internet Protocol)",
+                category: "protocolo",
+                definition: "Identificador numérico único asignado a cada dispositivo conectado a una red que utiliza el protocolo IP.",
+                realExample: "Como la dirección de tu casa: 'Calle 5, Casa 123'. Sin ella, el cartero no sabría dónde entregar las cartas. Sin IP, Internet no sabría dónde enviar la información.",
+                packetTracerExample: "Se asigna con el comando 'ip address 192.168.1.1 255.255.255.0' en interfaces.",
+                simulation: "ip",
+                icon: "fas fa-map-marker-alt"
+            },
+            {
+                term: "Máscara de Subred (Subnet Mask)",
+                category: "protocolo",
+                definition: "Valor que define qué parte de una dirección IP corresponde a la red y qué parte al host.",
+                realExample: "Como el código postal de tu dirección: te dice en qué ciudad vives (red) y cuál es tu casa específica (dispositivo). Separa el 'barrio' del 'número de casa'.",
+                packetTracerExample: "Se configura junto con la IP: 'ip address 192.168.1.1 255.255.255.0'.",
+                simulation: "subnet",
+                icon: "fas fa-layer-group"
+            },
+            {
+                term: "Gateway (Puerta de Enlace)",
+                category: "hardware",
+                definition: "Dispositivo que actúa como punto de acceso entre dos redes diferentes, típicamente entre una LAN e Internet.",
+                realExample: "Como la puerta principal de tu barrio cerrado: para salir al mundo exterior o que alguien entre, debe pasar por esa única puerta. Es el único camino hacia afuera.",
+                packetTracerExample: "Se configura como 'ip default-gateway 192.168.1.1' en dispositivos de la red.",
+                simulation: "gateway",
+                icon: "fas fa-door-open"
+            },
+            {
+                term: "DNS (Domain Name System)",
+                category: "servicio",
+                definition: "Sistema que traduce nombres de dominio legibles por humanos a direcciones IP numéricas.",
+                realExample: "Como la guía telefónica: en lugar de memorizar números, buscas por nombre. DNS convierte 'google.com' en números que las computadoras entienden.",
+                packetTracerExample: "Se configura un servidor DNS en Packet Tracer para resolver nombres de dominio.",
+                simulation: "dns",
+                icon: "fas fa-globe"
+            },
+            {
+                term: "DHCP (Dynamic Host Configuration Protocol)",
+                category: "servicio",
+                definition: "Protocolo que asigna automáticamente direcciones IP y otros parámetros de red a dispositivos.",
+                realExample: "Como el recepcionista de un hotel: cuando llegas, te asigna automáticamente un número de habitación disponible. DHCP te da una 'habitación' (IP) en la red.",
+                packetTracerExample: "Se configura con 'ip dhcp pool [nombre]' y se define el rango de IPs disponibles.",
+                simulation: "dhcp",
+                icon: "fas fa-cogs"
+            },
+            {
+                term: "HTTP (HyperText Transfer Protocol)",
+                category: "protocolo",
+                definition: "Protocolo de comunicación que permite la transferencia de información en la World Wide Web.",
+                realExample: "Como el idioma que usas para pedir en un restaurante: tienes reglas específicas para comunicarte. HTTP son las 'reglas de cortesía' entre tu navegador y los sitios web.",
+                packetTracerExample: "Se simula configurando un servidor web y accediendo desde un navegador en Packet Tracer.",
+                simulation: "http",
+                icon: "fas fa-globe-americas"
+            }
+        ];
+
+        // Variables globales
+        let currentFilter = 'all';
+        let currentSearch = '';
+
+        // Inicializar la aplicación
+        document.addEventListener('DOMContentLoaded', function() {
+            renderGlossary();
+            setupEventListeners();
+            setupScrollAnimations();
+        });
+
+        function setupEventListeners() {
+            // Búsqueda
+            document.getElementById('searchInput').addEventListener('input', function(e) {
+                currentSearch = e.target.value.toLowerCase();
+                renderGlossary();
+            });
+
+            // Filtros
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFilter = this.dataset.category;
+                    renderGlossary();
+                });
+            });
+
+            // Modal
+            document.getElementById('closeBtn').addEventListener('click', closeModal);
+            document.getElementById('modal').addEventListener('click', function(e) {
+                if (e.target === this) closeModal();
+            });
+
+            // Smooth scrolling
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        }
+
+        function setupScrollAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        function renderGlossary() {
+            const grid = document.getElementById('glossaryGrid');
+            const filteredData = glossaryData.filter(item => {
+                const matchesFilter = currentFilter === 'all' || item.category === currentFilter;
+                const matchesSearch = item.term.toLowerCase().includes(currentSearch) || 
+                                    item.definition.toLowerCase().includes(currentSearch);
+                return matchesFilter && matchesSearch;
+            });
+
+            grid.innerHTML = filteredData.map(item => `
+                <div class="card" onclick="openModal('${item.term}')">
+                    <div class="card-category">${getCategoryName(item.category)}</div>
+                    <div class="card-icon">
+                        <i class="${item.icon}"></i>
+                    </div>
+                    <div class="card-title">${item.term}</div>
+                    <div class="card-description">${item.definition}</div>
+                </div>
+            `).join('');
+        }
+
+        function getCategoryName(category) {
+            const categoryNames = {
+                'hardware': 'Hardware',
+                'protocolo': 'Protocolo',
+                'servicio': 'Servicio'
+            };
+            return categoryNames[category] || category;
+        }
+
+        function openModal(term) {
+            const item = glossaryData.find(i => i.term === term);
+            if (!item) return;
+
+            document.getElementById('modalTitle').textContent = item.term;
+            document.getElementById('modalBody').innerHTML = `
+                <div class="modal-section">
+                    <h3><i class="fas fa-book"></i> Definición</h3>
+                    <p>${item.definition}</p>
+                </div>
+                <div class="modal-section">
+                    <h3><i class="fas fa-lightbulb"></i> Ejemplo Real</h3>
+                    <p>${item.realExample}</p>
+                </div>
+                <div class="modal-section">
+                    <h3><i class="fas fa-laptop-code"></i> Ejemplo en Packet Tracer</h3>
+                    <p>${item.packetTracerExample}</p>
+                </div>
+                <div class="modal-section">
+                    <h3><i class="fas fa-play-circle"></i> Simulación Interactiva</h3>
+                    <div class="simulation-container">
+                        <button class="simulation-btn" onclick="runSimulation('${item.simulation}')">
+                            <i class="fas fa-play"></i> Ejecutar Simulación
+                        </button>
+                        <div class="simulation-display" id="simulationDisplay">Haz clic en "Ejecutar Simulación" para ver el proceso paso a paso...</div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('modal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        function runSimulation(type) {
+            const display = document.getElementById('simulationDisplay');
+            display.innerHTML = '<span style="color: #ffff00;">Iniciando simulación...</span>';
+            
+            setTimeout(() => {
+                switch(type) {
+                    case 'router':
+                        display.innerHTML = `
+                            <div><span style="color: #00ff00;">[OK]</span> Router R1 iniciado</div>
+                            <div><span style="color: #ffff00;">[INFO]</span> Configurando interfaces...</div>
+                            <div><span style="color: #00ff00;">[UP]</span> Interface GigabitEthernet0/0: ACTIVA</div>
+                            <div><span style="color: #00ff00;">[UP]</span> Interface GigabitEthernet0/1: ACTIVA</div>
+                            <div><span style="color: #ffff00;">[INFO]</span> Tabla de enrutamiento actualizada</div>
+                            <div><span style="color: #00ff00;">[SUCCESS]</span> Router listo para reenviar paquetes</div>
+                        `;
+                        break;
+                    case 'switch':
+                        display.innerHTML = `
+                            <div><span style="color: #00ff00;">[OK]</span> Switch SW1 iniciado</div>
+                            <div><span style="color: #ffff00;">[LEARN]</span> Aprendiendo direcciones MAC...</div>
+                            <div><span style="color: #00bfff;">[MAC]</span> aa:bb:cc:dd:ee:ff → Puerto 1</div>
+                            <div><span style="color: #00bfff;">[MAC]</span> 11:22:33:44:55:66 → Puerto 2</div>
+                            <div><span style="color: #00ff00;">[SUCCESS]</span> Tabla MAC actualizada</div>
+                        `;
+                        break;
+                    case 'server':
+                        display.innerHTML = `
+                            <div><span style="color: #00ff00;">[START]</span> Servidor HTTP iniciado</div>
+                            <div><span style="color: #ffff00;">[LISTEN]</span> Escuchando en puerto 80...</div>
+                            <div><span style="color: #00bfff;">[REQUEST]</span> GET /index.html HTTP/1.1</div>
+                            <div><span style="color: #00ff00;">[RESPONSE]</span> HTTP/1.1 200 OK</div>
+                            <div><span style="color: #00ff00;">[SUCCESS]</span> Página web servida correctamente</div>
+                        `;
+                        break;
+                    case 'pc':
+                        display.innerHTML = `
+                            <div><span style="color: #00ff00;">[BOOT]</span> PC Cliente iniciando...</div>
+                            <div><span style="color: #ffff00;">[DHCP]</span> Solicitando configuración IP...</div>
+                            <div><span style="color: #00bfff;">[IP]</span> IP asignada: 192.168.1.105</div>
+                            <div><span style="color: #00ff00;">[PING]</span> Probando conectividad...</div>
+                            <div><span style="color: #00ff00;">[SUCCESS]</span> PC listo para navegar</div>
+                        `;
+                        break;
+                    case 'ip':
+                        display.innerHTML = `
+                            <div><span style="color: #ffff00;">[CONFIG]</span> Configurando dirección IP...</div>
+                            <div><span style="color: #00bfff;">[IP]</span> Dirección: 192.168.1.100</div>
+                            <div><span style="color: #00bfff;">[MASK]</span> Máscara: 255.255.255.0</div>
+                            <div><span style="color: #00bfff;">[GW]</span> Gateway: 192.168.1.1</div>
+                            <div><span style="color: #00ff00;">[SUCCESS]</span> Configuración IP completada</div>
+                        `;
+                        break;
+                    case 'subnet':
+                        display.innerHTML = `
+                            <div><span style="color: #ffff00;">[SUBNET]</span> Analizando máscara de subred...</div>
+                            <div><span style="color: #00bfff;">[IP]</span> 192.168.1.100</div>
+                            <div><span style="color: #00bfff;">[MASK]</span> 255.255.255.0 (/24)</div>
+                            <div><span style="color: #00ff00;">[NETWORK]</span> Red: 192.168.1.0</div>
+                            <div><span style="color: #00ff00;">[HOST]</span> Host: 100</div>
+                            <div><span style="color: #00ff00;">[SUCCESS]</span> Segmentación de red definida</div>
+                        `;
+                        break;
+                    case 'gateway':
+                        display.innerHTML = `
+                            <div><span style="color: #ffff00;">[GATEWAY]</span> Configurando puerta de enlace...</div>
+                            <div><span style="color: #00bfff;">[LAN]</span> Red local: 192.168.1.0/24</div>
+                            <div><span style="color: #00bfff;">[GW]</span> Gateway: 192.168.1.1</div>
+                            <div><span style="color: #00ff00;">[ROUTE]</span> Ruta a Internet establecida</div>
+                            <div><span style="color: #00ff00;">[SUCCESS]</span> Conectividad externa disponible</div>
+                        `;
+                        break;
+                    case 'dns':
+                        display.innerHTML = `
+                            <div><span style="color: #ffff00;">[DNS]</span> Consulta DNS iniciada...</div>
+                            <div><span style="color: #00bfff;">[QUERY]</span> Consultando: www.ejemplo.com</div>
+                            <div><span style="color: #00bfff;">[SERVER]</span> Servidor DNS: 8.8.8.8</div>
+                            <div><span style="color: #00ff00;">[RESPONSE]</span> Respuesta: 93.184.216.34</div>
+                            <div><span style="color: #00ff00;">[SUCCESS]</span> Resolución DNS completada</div>
+                        `;
+                        break;
+                    case 'dhcp':
+                        display.innerHTML = `
+                            <div><span style="color: #ffff00;">[DHCP]</span> Proceso DHCP iniciado...</div>
+                            <div><span style="color: #00bfff;">[DISCOVER]</span> → Broadcast (255.255.255.255)</div>
+                            <div><span style="color: #00bfff;">[OFFER]</span> ← IP: 192.168.1.105</div>
+                            <div><span style="color: #00bfff;">[REQUEST]</span> → Aceptando IP ofrecida</div>
+                            <div><span style="color: #00ff00;">[ACK]</span> ← Configuración confirmada</div>
+                            <div><span style="color: #00ff00;">[SUCCESS]</span> IP asignada automáticamente</div>
+                        `;
+                        break;
+                    case 'http':
+                        display.innerHTML = `
+                            <div><span style="color: #ffff00;">[HTTP]</span> Iniciando petición HTTP...</div>
+                            <div><span style="color: #00bfff;">[REQUEST]</span> GET /index.html HTTP/1.1</div>
+                            <div><span style="color: #00bfff;">[HOST]</span> Host: www.ejemplo.com</div>
+                            <div><span style="color: #00ff00;">[RESPONSE]</span> HTTP/1.1 200 OK</div>
+                            <div><span style="color: #00ff00;">[CONTENT]</span> Página web transferida</div>
+                            <div><span style="color: #00ff00;">[SUCCESS]</span> Comunicación HTTP completada</div>
+                        `;
+                        break;
+                    default:
+                        display.innerHTML = '<span style="color: #ff0000;">[ERROR]</span> Simulación no disponible';
+                }
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
